@@ -9,7 +9,7 @@ function App() {
   const [inputTerm, setinputTerm] = useState();
   const [showLoader, setShowloader]=useState(false)
   const [searchTerm, setSearchTerm] = useState("general");
-  const API_URL = `http://www.omdbapi.com/?apikey=3be83424&s=`;
+  const API_URL = `https://www.omdbapi.com/?apikey=3be83424&s=`;
   const searchMovies = async (title) => {
     setShowloader(true);
     setShowmovies(false)
