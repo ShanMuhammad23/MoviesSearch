@@ -1,24 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import { useEffect, useState } from "react";
+import MovieCard from "./MovieCard";
+import Loader from "./Loader";
+import Footer from "./Footer";
 function App() {
+  const [movies, setMovies] = useState([]);
+  const [showmovies, setShowmovies]=useState(true)
+  const [inputTerm, setinputTerm] = useState();
+  const [showLoader, setShowloader]=useState(false)
+  const [searchTerm, setSearchTerm] = useState("general");
+  const API_URL = `http://www.omdbapi.com/?apikey=3be83424&s=`;
+  const searchMovies = async (title) => {
+    setShowloader(true);
+    setShowmovies(false)
+    const response = await fetch(`${API_URL}${title}`);
+    const data = await response.json();
+    setMovies(data.Search);
+    setShowloader(false);
+    setShowmovies(true)
+  };
+
+  useEffect(() => {
+    searchMovies(searchTerm);
+  }, [searchTerm]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <section className="app">
+      <h1>MoviesSearch</h1>
+      <p className="results">This is an open source movie search tool 
+      that shows only info of any movie,drama or show.You cannot download any content from here!
+       </p>
+      <div className="search">
+        <input
+          type="text"
+          value={inputTerm}
+          onChange={(e) => setinputTerm(e.target.value)}
+        />
+        <button onClick={(()=>setSearchTerm(inputTerm))}>Search</button>
+      </div>
+      {showLoader && <Loader/>}
+      {showmovies && movies?.length>0 ? (
+         <div className="container">
+         {movies.map((movie) => (
+           <MovieCard movie={movie} />
+         ))}
+       </div>
+      ) : (
+        <div className="container">
+          <h2>No Results Found for this search</h2>
+        </div>
+      )}
+    </section>
+    <Footer/>
+
+    </>
   );
 }
 
