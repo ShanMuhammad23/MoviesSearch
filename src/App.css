@@ -216,6 +216,8 @@ font-weight: 500;
 
   .search input {
     font-size: 1rem;
+    flex: 0;
+    padding: 0;
   }
 
   .search img {
