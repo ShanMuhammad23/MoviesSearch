@@ -42,13 +42,16 @@ function App() {
       {showmovies && movies?.length>0 ? (
          <div className="container">
          {movies.map((movie) => (
-           <MovieCard movie={movie} />
+           <MovieCard movie={movie} key={Math.floor(Math.random()*1000)}/>
          ))}
        </div>
       ) : (
-        <div className="container">
+        !showLoader &&  (
+          <div className="container">
           <h2>No Results Found for this search</h2>
         </div>
+        )
+       
       )}
     </section>
     <Footer/>
